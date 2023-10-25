@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,12 +47,14 @@ public class MatchServiceImpl implements MatchService {
 
         LocalDate MatchDate = LocalDate.now();
         LocalTime MatchTime = LocalTime.now();
+        DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("hh:mm a");
+        String customTime = MatchTime.format(customFormatter);
 
         Match match = new Match();
         match.setTeamA(teamA.getTeamname());
         match.setTeamB(teamB.getTeamname());
         match.setMatchDate(MatchDate);
-        match.setMatchTime(MatchTime);
+        match.setMatchTime(LocalTime.parse(customTime,customFormatter));
 
         int totalBalls = Over*6;
 
@@ -85,7 +88,6 @@ public class MatchServiceImpl implements MatchService {
         int totalScore = 0;
         int wicketCount = 0;
         List<String> ballByBall = new ArrayList<>();
-
         for (int ball = 1; ball <= totalBalls; ball++) {
             if (wicketCount == maxWickets) {
                 break;
@@ -95,6 +97,7 @@ public class MatchServiceImpl implements MatchService {
             if (ballResult == 7) {
                 wicketCount++;
                 ballByBall.add("W");
+
             } else {
                 totalScore += ballResult;
                 ballByBall.add(String.valueOf(ballResult));
