@@ -88,23 +88,51 @@ public class MatchServiceImpl implements MatchService {
         int totalScore = 0;
         int wicketCount = 0;
         List<String> ballByBall = new ArrayList<>();
+        List<String> playerByPlayer = new ArrayList<>();
+        int curr_player = 0 ;
+        String overs = Integer.toString(totalBalls/6);
+
         for (int ball = 1; ball <= totalBalls; ball++) {
             if (wicketCount == maxWickets) {
+                System.out.println("Total ball taken : "+ball);
+                int UsedOver = ball/6;
+                System.out.println("Used over "+UsedOver);
+                int UsedBalls = ball%6;
+                System.out.println("Used balls "+UsedBalls);
+                overs = UsedOver+" Overs "+(UsedBalls-1)+" Balls ";
                 break;
             }
-
             int ballResult = BallResult();
+//            System.out.println("playerByPlayer size: " + playerByPlayer.size());
+//            System.out.println("curr_player: " + curr_player);
             if (ballResult == 7) {
                 wicketCount++;
-                ballByBall.add("W");
+//                System.out.println("playerByPlayer size: " + playerByPlayer.size());
+//                System.out.println("curr_player: " + curr_player);
+                if(curr_player < playerByPlayer.size()){
+                    int playerscore = Integer.parseInt(playerByPlayer.get(curr_player));
+                    playerByPlayer.set(curr_player,String.valueOf(playerscore));
+                }else{
+                    playerByPlayer.add(String.valueOf(0));
+                }
+
+                ballByBall.add("Batsman " + (curr_player+1) +" - Ball " + ball +" : "+"W");
+                curr_player = (curr_player+1)%maxWickets;
 
             } else {
+                if(curr_player < playerByPlayer.size()){
+                    int playerscore = Integer.parseInt(playerByPlayer.get(curr_player));
+                    playerByPlayer.set(curr_player,String.valueOf(playerscore+ballResult));
+                }else{
+                    playerByPlayer.add(String.valueOf(ballResult));
+                }
+//                System.out.println("playerByPlayer size: " + playerByPlayer.size());
+//                System.out.println("curr_player: " + curr_player);
+                ballByBall.add("Batsman " + (curr_player+1) +" - Ball " + ball +" : " + ballResult );
                 totalScore += ballResult;
-                ballByBall.add(String.valueOf(ballResult));
             }
         }
-
-        match.addTeamResult(BattingTeam.getTeamname(), totalScore, wicketCount, ballByBall);
+        match.addTeamResult(BattingTeam.getTeamname(),BowlingTeam.getTeamname(), totalScore,overs,wicketCount, ballByBall , playerByPlayer);
     }
 
     private int BallResult() {

@@ -11,8 +11,11 @@ import java.util.List;
 @Data
 public class TeamResults {
     private String battingTeam;
+    private String bowlingTeam;
     private int totalScore;
+    private String oversDone;
     private int wickets;
     private List<String> ballByBall;
+    private List<String> playerByPlayer;
 
 }
