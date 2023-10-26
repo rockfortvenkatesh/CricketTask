@@ -1,6 +1,12 @@
+#spring:
+#  data:
+#    mongodb:
+#      host: localhost
+#      port: 27017
+#      database: cricket_db
+
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: cricket_db
+      uri: mongodb+srv://admin-venkatesh:root@cluster0.xfz1k.mongodb.net/?retryWrites=true&w=majority
+      database: cricket_task
