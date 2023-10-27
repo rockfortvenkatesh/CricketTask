@@ -35,15 +35,8 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Match StartMatch(String TeamAId, String TeamBId ,int Over ,int PlayerSize) {
-        // Match match = matchRepo.findById(id).orElseThrow(() -> new MatchNotFoundException("Match not found"));
-       // Match matchh = (Match) matchRepo.findAll();
         Team teamA = teamRepo.findById(TeamAId).orElseThrow(()-> new TeamNotFoundException("TeamA Not found"));
         Team teamB = teamRepo.findById(TeamBId).orElseThrow(()-> new TeamNotFoundException("TeamB Not Found"));
-//        Optional<Team> teamAOptional = Optional.ofNullable(teamRepo.findByTeamname(matchh.getTeamA()));
-//        Team teamA = teamAOptional.orElseThrow(() -> new TeamNotFoundException("Team" + matchh.getTeamA() + " not found"));
-//
-//        Optional<Team> teamBOptional = Optional.ofNullable(teamRepo.findByTeamname(matchh.getTeamB()));
-//        Team teamB = teamBOptional.orElseThrow(() -> new TeamNotFoundException("Team" + matchh.getTeamB() + " not found"));
 
         LocalDate MatchDate = LocalDate.now();
         LocalTime MatchTime = LocalTime.now();
@@ -103,7 +96,7 @@ public class MatchServiceImpl implements MatchService {
                 System.out.println("Used over "+UsedOver);
                 int UsedBalls = ball%6;
                 System.out.println("Used balls "+UsedBalls);
-                overs = UsedOver+" Overs "+(UsedBalls)+" Balls ";
+                overs = UsedOver+" Overs "+(UsedBalls-1)+" Balls ";
                 break;
             }
             int ballResult = BallResult();
