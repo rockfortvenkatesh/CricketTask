@@ -103,7 +103,7 @@ public class MatchServiceImpl implements MatchService {
                 System.out.println("Used over "+UsedOver);
                 int UsedBalls = ball%6;
                 System.out.println("Used balls "+UsedBalls);
-                overs = UsedOver+" Overs "+(UsedBalls-1)+" Balls ";
+                overs = UsedOver+" Overs "+(UsedBalls)+" Balls ";
                 break;
             }
             int ballResult = BallResult();
@@ -159,6 +159,10 @@ public class MatchServiceImpl implements MatchService {
                 .orElseThrow(() -> new MatchNotFoundException("Match not found"));
 
         TeamResultsDTO matchResult = new TeamResultsDTO();
+        matchResult.setTeamA(match.getTeamA());
+        matchResult.setTeamB(match.getTeamB());
+        matchResult.setMatchDate((match.getMatchDate()));
+        matchResult.setMatchTime((match.getMatchTime()));
         matchResult.setTeamResults(match.getTeamResults());
         matchResult.setWinner(match.getWinner());
 
