@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://admin-venkatesh:root@cluster0.xfz1k.mongodb.net/?retryWrites=true&w=majority
+      database: cricket_task_test
