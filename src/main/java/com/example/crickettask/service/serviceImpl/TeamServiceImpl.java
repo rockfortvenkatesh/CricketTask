@@ -1,13 +1,16 @@
 package com.example.crickettask.service.serviceImpl;
 
 import com.example.crickettask.entity.Team;
+import com.example.crickettask.entity.TeamDTO;
 import com.example.crickettask.exception.TeamAlreadyExistsException;
+import com.example.crickettask.exception.TeamNotFoundException;
 import com.example.crickettask.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.crickettask.repo.TeamRepo;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -35,19 +38,28 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team updateTeam(int id, Team team) {
-        Team OriginalTeam = teamRepo.findById(String.valueOf(id)).get();
-        OriginalTeam.setTeamname(team.getTeamname());
-        //OriginalTeam.setTeamsize(team.getTeamsize());
-        teamRepo.save(OriginalTeam);
-        return OriginalTeam;
+    public Team updateTeam(int id, TeamDTO teamDTO) {
+        Optional<Team> optionalTeam = teamRepo.findById(String.valueOf(id));
+        if (optionalTeam.isPresent()) {
+            Team originalTeam = optionalTeam.get();
+            originalTeam.setTeamname(teamDTO.getTeamname());
+            return teamRepo.save(originalTeam);
+        } else {
+            throw new TeamNotFoundException("Team not found for ID: " + id);
+        }
     }
 
     @Override
     public Team deleteTeam(int id) {
-        Team team =  teamRepo.findById(String.valueOf(id)).get();
-        teamRepo.delete(team);
-        return team;
+        Optional<Team> optionalTeam = teamRepo.findById(String.valueOf(id));
+        if (optionalTeam.isPresent()) {
+            Team teamToDelete = optionalTeam.get();
+            teamRepo.delete(teamToDelete);
+            return teamToDelete;
+        } else {
+            throw new TeamNotFoundException("Team not found for ID: " + id);
+        }
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.crickettask.controller;
 
 import com.example.crickettask.entity.Team;
+import com.example.crickettask.entity.TeamDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,7 +42,10 @@ public class TeamController {
             description = "This API is Insert a New team to DB"
     )
     @PostMapping("/insertTeam")
-    public Team insertTeam(@RequestBody Team team){
+    public Team insertTeam(@RequestBody TeamDTO teamDTO){
+        Team team = new Team();
+        team.setId(teamDTO.getId());
+        team.setTeamname(teamDTO.getTeamname());
         return teamService.insertTeam(team);
     }
     @Operation(
@@ -49,8 +53,8 @@ public class TeamController {
             description = "This API is Update a team in DB"
     )
     @PutMapping("/update/{id}")
-    public Team updateTeam(@PathVariable int id , @RequestBody Team team){
-        return teamService.updateTeam(id, team);
+    public Team updateTeam(@PathVariable int id , @RequestBody TeamDTO teamDTO){
+        return teamService.updateTeam(id, teamDTO);
     }
     @Operation(
             summary = "Delete the Teams in DB",

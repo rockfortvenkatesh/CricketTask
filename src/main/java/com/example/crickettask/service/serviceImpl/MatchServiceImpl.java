@@ -12,6 +12,7 @@ import com.example.crickettask.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -142,8 +143,8 @@ public class MatchServiceImpl implements MatchService {
     }
 
     private int BallResult() {
-
-        return (int) (Math.random() * 8);
+        SecureRandom secureRandom = new SecureRandom();
+        return secureRandom.nextInt(8);
     }
 
     @Override
@@ -160,6 +161,5 @@ public class MatchServiceImpl implements MatchService {
         matchResult.setWinner(match.getWinner());
 
         return matchResult;
-        //command
     }
 }
